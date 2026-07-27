@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Attendance Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #0f0f0f;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #000, #1a1a1a);
+        }
+
+        .dashboard-card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(255,193,7,0.1);
+        }
+
+        .highlight {
+            color: #ffc107;
+        }
+
+        /* STATS */
+        .stats-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stats-box h4 {
+            color: #ffc107;
+        }
+
+        /* GLASS TABLE */
+        .custom-table {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255,193,7,0.2);
+        }
+
+        .custom-table th {
+            background: linear-gradient(45deg, #ffc107, #ff9800);
+            color: #000;
+            text-align: center;
+        }
+
+        .custom-table td {
+            color: #ddd;
+            text-align: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .custom-table tr:hover {
+            background: rgba(255,193,7,0.08);
+        }
+
+        /* BUTTONS */
+        .status-btn {
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 13px;
+            border: none;
+            margin: 2px;
+            transition: 0.3s;
+        }
+
+        .inactive {
+            background: #333;
+            color: #aaa;
+        }
+
+        .present {
+            background: #28a745;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(40,167,69,0.6);
+        }
+
+        .absent {
+            background: #dc3545;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(220,53,69,0.6);
+        }
+
+        /* SAVE BUTTON */
+        .btn-save {
+            background: linear-gradient(45deg, #ffc107, #ff9800);
+            border: none;
+            border-radius: 30px;
+            padding: 10px 25px;
+            color: #000;
+            font-weight: 600;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark px-4">
+    <span class="navbar-brand fs-4">📅 Attendance</span>
+    <a href="/trainer-dashboard" class="btn btn-outline-warning">Back</a>
+</nav>
+
+<div class="container mt-5">
+
+    <div class="dashboard-card">
+
+        <h3 class="text-center highlight mb-4">Daily Attendance</h3>
+
+        <!-- DATE -->
+        <div class="text-center mb-4">
+            <input type="date" class="form-control w-25 mx-auto">
+        </div>
+
+        <!-- STATS -->
+        <div class="row text-center mb-4">
+            <div class="col-md-4">
+                <div class="stats-box">
+                    <h4 id="presentCount">0</h4>
+                    <p>Present</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-box">
+                    <h4 id="absentCount">0</h4>
+                    <p>Absent</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-box">
+                    <h4 id="totalCount">0</h4>
+                    <p>Total</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="m : ${members}">
+                    <td th:text="${m.id}"></td>
+                    <td th:text="${m.fullName}"></td>
+                    <td>
+                        <button class="status-btn present-btn inactive">Present</button>
+                        <button class="status-btn absent-btn inactive">Absent</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            <button class="btn-save" onclick="saveAttendance()">💾 Save Attendance</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const rows = document.querySelectorAll("tbody tr");
+
+    let presentCount = 0;
+    let absentCount = 0;
+
+    function updateCounts() {
+        document.getElementById("presentCount").innerText = presentCount;
+        document.getElementById("absentCount").innerText = absentCount;
+        document.getElementById("totalCount").innerText = rows.length;
+    }
+
+    rows.forEach(row => {
+        const presentBtn = row.querySelector(".present-btn");
+        const absentBtn = row.querySelector(".absent-btn");
+
+        presentBtn.addEventListener("click", () => {
+            if (!presentBtn.classList.contains("present")) {
+
+                if (absentBtn.classList.contains("absent")) {
+                    absentCount--;
+                }
+
+                presentBtn.classList.add("present");
+                presentBtn.classList.remove("inactive");
+
+                absentBtn.classList.remove("absent");
+                absentBtn.classList.add("inactive");
+
+                presentCount++;
+                updateCounts();
+            }
+        });
+
+        absentBtn.addEventListener("click", () => {
+            if (!absentBtn.classList.contains("absent")) {
+
+                if (presentBtn.classList.contains("present")) {
+                    presentCount--;
+                }
+
+                absentBtn.classList.add("absent");
+                absentBtn.classList.remove("inactive");
+
+                presentBtn.classList.remove("present");
+                presentBtn.classList.add("inactive");
+
+                absentCount++;
+                updateCounts();
+            }
+        });
+    });
+
+    updateCounts();
+    
+    function saveAttendance() {
+        alert("✅ Attendance Saved");
+    }
+    
+   
+</script>
+
+</body>
+</html>

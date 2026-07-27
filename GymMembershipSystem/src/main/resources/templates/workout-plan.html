@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Workout Plan</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #0f0f0f;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+        }
+
+        .main-card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(255,193,7,0.1);
+        }
+
+        .card-dark {
+            background: #111;
+            border-radius: 15px;
+            padding: 20px;
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .card-dark:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,193,7,0.2);
+        }
+
+        .highlight {
+            color: #ffc107;
+            font-weight: 600;
+        }
+
+        .progress {
+            height: 10px;
+            background: #333;
+        }
+
+        .btn-custom {
+            border-radius: 30px;
+            font-weight: 500;
+        }
+
+        ul li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark px-4 shadow">
+    <span class="navbar-brand fs-4">
+        🏋 Workout Plan Dashboard
+    </span>
+    <a href="/member-dashboard" class="btn btn-outline-warning btn-custom">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+</nav>
+
+<div class="container mt-5 mb-5">
+    <div class="main-card">
+
+        <!-- TODAY WORKOUT -->
+        <div class="card-dark mb-4">
+            <h4 class="highlight mb-3">
+                <i class="bi bi-calendar-check"></i> Today's Workout (Chest & Triceps)
+            </h4>
+
+            <ul>
+                <li>🏋 Bench Press – 4 sets × 10 reps</li>
+                <li>💪 Incline Dumbbell Press – 3 × 12</li>
+                <li>🔥 Cable Fly – 3 × 15</li>
+                <li>💥 Tricep Pushdown – 3 × 12</li>
+                <li>⚡ Dips – 3 × 10</li>
+            </ul>
+        </div>
+
+        <!-- WEEKLY SPLIT -->
+        <div class="row mb-4">
+
+            <div class="col-md-4 mb-3">
+                <div class="card-dark">
+                    <h6 class="highlight">Monday</h6>
+                    Chest + Triceps
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card-dark">
+                    <h6 class="highlight">Tuesday</h6>
+                    Back + Biceps
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card-dark">
+                    <h6 class="highlight">Wednesday</h6>
+                    Legs
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card-dark">
+                    <h6 class="highlight">Thursday</h6>
+                    Shoulders
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card-dark">
+                    <h6 class="highlight">Friday</h6>
+                    Abs + Cardio
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card-dark">
+                    <h6 class="highlight">Saturday</h6>
+                    Full Body HIIT
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PROGRESS LEVEL -->
+        <div class="card-dark mb-4">
+            <h5 class="highlight mb-3">
+                <i class="bi bi-graph-up-arrow"></i> Workout Completion
+            </h5>
+
+            <div class="progress mb-2">
+                <div class="progress-bar bg-warning" style="width: 75%"></div>
+            </div>
+            <small>75% Weekly Target Completed</small>
+        </div>
+
+        <!-- TRAINER NOTE -->
+        <div class="card-dark mb-4">
+            <h5 class="highlight mb-3">
+                <i class="bi bi-person-badge"></i> Trainer Notes
+            </h5>
+            <p>
+                Increase weight gradually. Focus on proper form.
+                Maintain protein intake above 100g daily.
+                Stretch properly after every workout session.
+            </p>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="text-center mt-4">
+
+            <a href="/progress" class="btn btn-warning btn-custom px-4 me-2">
+                <i class="bi bi-graph-up"></i> View Progress
+            </a>
+
+            <a href="/download-workout" class="btn btn-success btn-custom px-4 me-2">
+                <i class="bi bi-download"></i> Download Plan
+            </a>
+
+            <a href="/renew-membership" class="btn btn-danger btn-custom px-4">
+                <i class="bi bi-credit-card"></i> Renew Membership
+            </a>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

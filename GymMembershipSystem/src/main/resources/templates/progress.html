@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Progress Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: #0f0f0f;
+            font-family: 'Segoe UI', sans-serif;
+            color: #fff;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+        }
+
+        .main-card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 25px rgba(255,193,7,0.1);
+        }
+
+        .card-dark {
+            background: #111;
+            border-radius: 15px;
+            padding: 20px;
+            transition: 0.3s;
+            height: 100%;
+        }
+
+        .card-dark:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,193,7,0.2);
+        }
+
+        .highlight {
+            color: #ffc107;
+            font-weight: 600;
+        }
+
+        .timeline-box {
+            border-left: 3px solid #ffc107;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn-custom {
+            border-radius: 30px;
+            font-weight: 500;
+        }
+
+        canvas {
+            background: #111;
+            border-radius: 15px;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark px-4 shadow">
+    <span class="navbar-brand fs-4">
+        📊 Progress Dashboard
+    </span>
+    <a href="/member-dashboard" class="btn btn-outline-warning btn-custom">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+</nav>
+
+<div class="container mt-5 mb-5">
+    <div class="main-card">
+
+        <!-- TOP STATS -->
+        <div class="row text-center mb-4">
+
+            <div class="col-md-3 mb-3">
+                <div class="card-dark">
+                    <h6><i class="bi bi-speedometer2"></i> Current Weight</h6>
+                    <h3 class="highlight">72 kg</h3>
+                    <small class="text-success">-6 kg since joining</small>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card-dark">
+                    <h6><i class="bi bi-heart-pulse"></i> BMI</h6>
+                    <h3 class="highlight">22.4</h3>
+                    <small class="text-info">Healthy Range</small>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card-dark">
+                    <h6><i class="bi bi-droplet-half"></i> Body Fat</h6>
+                    <h3 class="highlight">18%</h3>
+                    <small class="text-success">-4% Reduced</small>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="card-dark">
+                    <h6><i class="bi bi-barbell"></i> Muscle Gain</h6>
+                    <h3 class="highlight">+3 kg</h3>
+                    <small class="text-warning">Lean Mass</small>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- WEIGHT CHART -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card-dark">
+                    <h5 class="highlight mb-3"><i class="bi bi-graph-up"></i> Weight Progress</h5>
+                    <canvas id="weightChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- BMI CHART -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card-dark">
+                    <h5 class="highlight mb-3">BMI Progress</h5>
+                    <canvas id="bmiChart"></canvas>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-dark">
+                    <h5 class="highlight mb-3">Monthly Comparison</h5>
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRESS TIMELINE -->
+        <div class="card-dark mt-4">
+            <h5 class="highlight mb-3"><i class="bi bi-clock-history"></i> Progress Timeline</h5>
+
+            <div class="timeline-box">
+                <strong>January:</strong> Started gym at 78 kg.
+            </div>
+
+            <div class="timeline-box">
+                <strong>March:</strong> Lost 3 kg, stamina improved.
+            </div>
+
+            <div class="timeline-box">
+                <strong>June:</strong> Achieved healthy BMI & visible muscle tone.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    new Chart(document.getElementById("weightChart"), {
+        type: "line",
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            datasets: [{
+                label: "Weight (kg)",
+                data: [78, 76, 75, 74, 73, 72],
+                borderColor: "#ffc107",
+                backgroundColor: "rgba(255,193,7,0.1)",
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("bmiChart"), {
+        type: "line",
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+            datasets: [{
+                label: "BMI",
+                data: [24.5, 23.8, 23.4, 22.9, 22.6, 22.4],
+                borderColor: "#17a2b8",
+                borderWidth: 3,
+                tension: 0.4
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("comparisonChart"), {
+        type: "bar",
+        data: {
+            labels: ["Weight Lost", "Muscle Gain", "Fat Reduced"],
+            datasets: [{
+                label: "Progress",
+                data: [6, 3, 4],
+                backgroundColor: ["#ffc107", "#28a745", "#dc3545"]
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>

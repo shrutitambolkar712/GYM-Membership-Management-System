@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Member Login</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#0f0f0f;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* MAIN CONTAINER */
+.login-container{
+    width:900px;
+    display:flex;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* LEFT IMAGE */
+.login-image{
+    width:50%;
+    background:url('/images/gymimg1.webp') center/cover no-repeat;
+    position:relative;
+}
+
+.login-image::after{
+    content:'';
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+}
+
+/* RIGHT FORM */
+.login-form{
+    width:50%;
+    background:#1a1a1a;
+    padding:40px;
+    color:white;
+}
+
+/* TITLE */
+.login-form h3{
+    font-weight:700;
+    color:#ffc107;
+}
+
+/* INPUT */
+.form-control{
+    background:#111;
+    border:1px solid #333;
+    color:white;
+}
+
+.form-control:focus{
+    background:#111;
+    color:white;
+    border-color:#ffc107;
+    box-shadow:none;
+}
+
+/* BUTTON */
+.btn-login{
+    background:#ffc107;
+    border:none;
+    font-weight:600;
+}
+
+.btn-login:hover{
+    background:#e0a800;
+}
+
+/* BACK LINK */
+.back-link{
+    color:#aaa;
+    text-decoration:none;
+}
+
+.back-link:hover{
+    color:#ffc107;
+}
+
+</style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+<div class="login-container">
+
+    <!-- LEFT IMAGE -->
+    <div class="login-image"></div>
+
+    <!-- RIGHT FORM -->
+    <div class="login-form">
+
+        <h3 class="mb-4 text-center">💪 Member Login</h3>
+
+        <form action="/member-login" method="post">
+
+            <input type="email" name="email" class="form-control mb-3" placeholder="Enter Email" required>
+
+            <input type="password" name="password" class="form-control mb-3" placeholder="Enter Password" required>
+
+            <button class="btn btn-login w-100">Login</button>
+
+        </form>
+
+        <div class="text-center mt-3">
+            <a href="/" class="back-link">← Back to Home</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

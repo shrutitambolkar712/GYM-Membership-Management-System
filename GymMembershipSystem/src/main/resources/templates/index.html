@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gym Management System</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+<style>
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* HERO SECTION */
+.hero-section {
+    background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b')
+                no-repeat center center/cover;
+    height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+    pointer-events: none;   /* ✅ THIS FIX */
+}
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 50px;
+    border-radius: 12px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.hero-overlay h1 {
+    font-size: 3.5rem;
+}
+
+.hero-overlay p {
+    font-size: 1.3rem;
+}
+
+.hero-overlay .btn {
+    border-radius: 30px;
+    padding: 10px 30px;
+    font-weight: 500;
+}
+
+/* MEMBERSHIP SECTION */
+.membership-section {
+    padding: 80px 0;
+    background: #0f0f0f;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+/* Heading */
+.membership-section h2 {
+    color: #ffc107;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Cards */
+.card {
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid #222;
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+    
+}
+
+/* Glow border effect */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(45deg, #ffc107, transparent, #ffc107);
+    
+    pointer-events: none;   /* ✅ VERY IMPORTANT */
+}
+
+/* Hover effect */
+.card {
+    background: rgba(20, 20, 20, 0.6); /* glass effect */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glow border (subtle white instead of yellow) */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.15));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+}
+
+/* Hover effect (premium floating look) */
+.card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+}
+
+/* Plan Title */
+.card h4 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* Price (white glow instead of yellow) */
+.card h2 {
+    color: #eaeaea;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Features */
+.card p {
+    color: #aaa;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Button (black luxury gradient) */
+.btn-primary {
+    background: linear-gradient(45deg, #ffc107, #ff9800); /* 🔥 yellow gradient */
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 600;
+    color: #000;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(255,193,7,0.5); /* yellow glow */
+    background: linear-gradient(45deg, #ffca2c, #ffb300);
+}
+
+/* Highlight card (center one) */
+.card:nth-child(2) {
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 30px rgba(255,255,255,0.08);
+}
+/* PREMIUM GYM SLIDER */
+
+.gymfit-slider {
+    height: 650px;
+    position: relative;
+}
+
+.gym-slide {
+    height: 650px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Background Images */
+.slide1 {
+    background: url('/images/gymimg1.webp') no-repeat center/cover;
+}
+
+.slide2 {
+    background: url('/images/gymimg2.webp') no-repeat center/cover;
+}
+
+.slide3 {
+    background: url('/images/gymimg3.webp') no-repeat center/cover;
+}
+
+/* Dark Overlay */
+.gym-slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
+}
+
+/* Text Container */
+.slide-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    animation: slideUp 1.2s ease;
+}
+
+/* Title */
+.slide-title {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* Subtitle */
+.slide-sub {
+    font-size: 1.3rem;
+    margin-top: 15px;
+    font-weight: 400;
+}
+
+/* Button Styling */
+.slide-content .btn {
+    border-radius: 40px;
+    padding: 12px 35px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.slide-content .btn:hover {
+    transform: scale(1.05);
+}
+
+/* Text Animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Zoom Background Animation */
+.carousel-item.active {
+    animation: zoomBg 6s ease-in-out;
+}
+
+@keyframes zoomBg {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.08);
+    }
+}
+
+/* Indicators */
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.testimonial-box {
+    max-width: 700px;
+    background: rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.testimonial-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffc107;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    padding: 15px;
+}
+
+
+/* ===== LUXURY FOOTER ===== */
+
+.lux-footer {
+    background: #0f0f0f;
+    color: #ccc;
+}
+
+.footer-logo {
+    color: #d4af37;
+    font-weight: 700;
+}
+
+.footer-heading {
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.footer-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #aaa;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: #d4af37;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    background: #000;
+    color: #888;
+    font-size: 0.9rem;
+    border-top: 1px solid #222;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR (UNCHANGED) -->
+<nav class="navbar navbar-dark bg-dark px-4">
+    <span class="navbar-brand">💪 Gym Management System</span>
+
+    <div>
+        <a href="/member-login" class="btn btn-outline-light me-2">Member Login</a>
+        <a href="/trainer-login" class="btn btn-outline-warning">Trainer Login</a>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <div class="hero-overlay">
+        <h1 class="display-4 fw-bold">Transform Your Body</h1>
+        <p class="lead">Push Harder Than Yesterday If You Want A Different Tomorrow</p>
+        <a href="#membership" class="btn btn-warning btn-lg mt-3">Join Now</a>
+    </div>
+</div>
+
+<!-- MEMBERSHIP PLANS -->
+<div id="membership" class="container-fluid membership-section text-center">
+
+  <h2 class="mb-5">💎 Our Premium Membership Plans</h2>
+    <div class="row">
+
+        <!-- Monthly -->
+        <div class="col-md-4">
+            <div class="card shadow p-4">
+                <h4>Monthly Plan</h4>
+                <h2 class="text-primary">₹999</h2>
+                <p>Access to all equipment</p>
+                <p>Free Locker</p>
+                <p>Basic Trainer Support</p>
+               <a href="/takeMembership?type=Monthly&amount=999" class="btn btn-primary">
+    Take Membership
+</a>
+            </div>
+        </div>
+
+        <!-- Quarterly -->
+        <div class="col-md-4">
+            <div class="card shadow p-4">
+                <h4>Quarterly Plan</h4>
+                <h2 class="text-success">₹2499</h2>
+                <p>Everything in Monthly</p>
+                <p>Diet Consultation</p>
+                <p>Priority Support</p>
+             <a href="/takeMembership?type=Quarterly&amount=2499" class="btn btn-primary">
+    Take Membership
+</a>
+            </div>
+        </div>
+
+        <!-- Yearly -->
+        <div class="col-md-4">
+            <div class="card shadow p-4">
+                <h4>Yearly Plan</h4>
+                <h2 class="text-danger">₹8999</h2>
+                <p>All Premium Benefits</p>
+                <p>Personal Trainer</p>
+                <p>Free Gym Kit</p>
+              <a href="/takeMembership?type=Yearly&amount=8999" class="btn btn-primary">
+    Take Membership
+</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PREMIUM GYMFIT SLIDER -->
+<section class="gymfit-slider">
+
+    <div id="gymfitCarousel" class="carousel slide carousel-fade"
+         data-bs-ride="carousel"
+         data-bs-interval="5000">
+
+        <!-- Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#gymfitCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#gymfitCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#gymfitCarousel" data-bs-slide-to="2"></button>
+        </div>
+
+        <div class="carousel-inner">
+
+            <!-- Slide 1 -->
+            <div class="carousel-item active gym-slide slide1">
+                <div class="slide-content">
+                    <h1 class="slide-title">WORK HARDER</h1>
+                    <p class="slide-sub">Push Beyond Your Limits</p>
+                    <a href="#membership" class="btn btn-warning btn-lg mt-3">
+                        Start Today
+                    </a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item gym-slide slide2">
+                <div class="slide-content">
+                    <h1 class="slide-title">TRANSFORM & THRIVE</h1>
+                    <p class="slide-sub">Your Body. Your Power.</p>
+                    <a href="#membership" class="btn btn-outline-light btn-lg mt-3">
+                        Join Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item gym-slide slide3">
+                <div class="slide-content">
+                    <h1 class="slide-title text-danger">DISCOVER YOUR STRENGTH</h1>
+                    <p class="slide-sub">Become The Best Version Of You</p>
+                    <a href="#membership" class="btn btn-danger btn-lg mt-3">
+                        Explore Plans
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev"
+                type="button"
+                data-bs-target="#gymfitCarousel"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+
+        <button class="carousel-control-next"
+                type="button"
+                data-bs-target="#gymfitCarousel"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+
+    </div>
+
+</section>
+
+<!-- TESTIMONIALS SECTION -->
+<section class="py-5 bg-dark text-white">
+    <div class="container text-center">
+
+        <h2 class="mb-5">What Our Members Say</h2>
+
+        <div id="testimonialCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+            <div class="carousel-inner" >
+
+                <!-- Testimonial 1 -->
+                <div class="carousel-item active">
+                    <div class="testimonial-box mx-auto">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg"
+                             class="testimonial-img mb-3" alt="Rahul">
+
+                        <h5>Rahul Sharma</h5>
+                        <div class="text-warning mb-2">
+                            ⭐⭐⭐⭐⭐
+                        </div>
+
+                        <p class="lead">
+                            "This gym completely transformed my life! The trainers are amazing and the environment is super motivating."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="carousel-item">
+                    <div class="testimonial-box mx-auto">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg"
+                             class="testimonial-img mb-3" alt="Priya">
+
+                        <h5>Priya Patel</h5>
+                        <div class="text-warning mb-2">
+                            ⭐⭐⭐⭐⭐
+                        </div>
+
+                        <p class="lead">
+                            "Best equipment and friendly staff. I lost 12kg in 6 months thanks to their personal training program!"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="carousel-item">
+                    <div class="testimonial-box mx-auto">
+                        <img src="https://randomuser.me/api/portraits/men/55.jpg"
+                             class="testimonial-img mb-3" alt="Amit">
+
+                        <h5>Amit Verma</h5>
+                        <div class="text-warning mb-2">
+                            ⭐⭐⭐⭐⭐
+                        </div>
+
+                        <p class="lead">
+                            "Clean environment, modern machines, and flexible membership plans. Highly recommended!"
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#testimonialCarousel"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#testimonialCarousel"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
+        </div>
+
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ===== LUXURY FOOTER ===== -->
+<footer class="lux-footer">
+
+    <div class="container py-5">
+        <div class="row">
+
+            <!-- Brand -->
+            <div class="col-md-4 mb-4">
+                <h3 class="footer-logo">💪 GymFit</h3>
+                <p class="footer-text">
+                    Premium fitness experience designed for those who demand excellence.
+                    Train harder. Become stronger. Live better.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-2 mb-4">
+                <h5 class="footer-heading">Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#membership">Membership</a></li>
+                    <li><a href="#">Trainers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Membership -->
+            <div class="col-md-3 mb-4">
+                <h5 class="footer-heading">Membership</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Monthly Plan</a></li>
+                    <li><a href="#">Quarterly Plan</a></li>
+                    <li><a href="#">Yearly Plan</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="col-md-3 mb-4">
+                <h5 class="footer-heading">Contact Us</h5>
+                <p class="footer-text">
+                    📍 Pune, Maharashtra<br>
+                    📞 +91 98765 43210<br>
+                    ✉ support@gymfit.com
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-bottom text-center py-3">
+        © 2026 GymFit. All Rights Reserved.
+    </div>
+
+</footer>
+
+
+</body>
+</html>
